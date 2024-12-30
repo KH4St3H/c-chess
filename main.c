@@ -64,7 +64,7 @@ int canReach(int si, int sj, int di, int dj){
         case 'n':
             return knight(player, si, sj, di, dj);
         case 'q':
-            return rook(player, si, sj, di, dj) || bishop(player, si, sj, di, dj);
+            return queen(player, si, sj, di, dj);
     }
     return 0;
 }
@@ -105,6 +105,32 @@ int try(int i1, int j1, int i2, int j2){
     return !c;
 }
 
+void promote(int i, int j){
+    char piece = board[i][j];
+    if(getPieceLower(piece) != 'p')
+        return;
+    if (i!=7 && i != 0)
+        return;
+    
+
+
+    char c;
+    while(1){
+        printf("What do you want to promote to(q, r, n, b)? ");
+        scanf("%*[\n]");
+        scanf("%c", &c);
+        if(c > 96)
+            c -= 32;
+
+        if(c=='Q' || c=='R' || c=='N' || c=='B'){
+            c += playerToMove * 32;
+            board[i][j] = c;
+            return;
+        }
+    }
+
+    
+}
 
 
 int move(char s1, int s2, char d1, int d2){
@@ -139,6 +165,7 @@ int move(char s1, int s2, char d1, int d2){
     
     board[di][dj] = board[si][sj];
     board[si][sj] = '.';
+    promote(di, dj);
 
     return 1;
 }
