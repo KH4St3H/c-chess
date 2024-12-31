@@ -169,12 +169,46 @@ int move(char s1, int s2, char d1, int d2){
 }
 
 void printBoard(){
+    char *cc;
     for(int i=0; i<8; i++){
         for(int j=0; j<8; j++){
-            printf("%c ", board[i][j]);
+            char c = board[i][j];
+            if(c=='k')
+                cc = "♔";
+            else if(c=='K')
+                cc = "♚";
+            else if(c=='Q')
+                cc = "♛";
+            else if(c=='q')
+                cc = "♕";
+            else if(c=='r')
+                cc = "♖";
+            else if(c=='R')
+                cc = "♜";
+            else if(c=='b')
+                cc = "♗";
+            else if(c=='B')
+                cc = "♝";
+            else if(c=='p')
+                cc = "♙";
+            else if(c=='P')
+                cc = "♟";
+            else if(c=='N')
+                cc = "♞";
+            else if(c=='n')
+                cc = "♘";
+
+            else
+                cc = &c;
+            printf("%s ", cc);
         }
-        printf("\n");
+        printf("  %d\n", 8-i);
     }
+    printf("\n");
+    for(int j=0; j<8; j++){
+        printf("%c ", 'a'+j);
+    }
+    printf("\n");
 }
 
 void populateBoard(){
