@@ -52,19 +52,22 @@ int rook(int player, int si, int sj, int di, int dj)
             nj = sj;
             if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
                 continue;
-            if (ni == di && dj == nj)
-                return board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player);
+            if (ni == di && dj == nj){
+                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
+                    return 1;
+            }
             if (board[ni][nj] != '.')
                 break;
         }
         for (int i = 1; i < 8; i++)
         {
             ni = si;
-            nj = si + i*m;
+            nj = sj + i*m;
             if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
                 continue;
             if (ni == di && dj == nj)
-                return board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player);
+                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
+                    return 1;
             if (board[ni][nj] != '.')
                 break;
         }
@@ -86,18 +89,20 @@ int bishop(int player, int si, int sj, int di, int dj)
             if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
                 continue;
             if (ni == di && dj == nj)
-                return board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player);
+                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
+                    return 1;
             if (board[ni][nj] != '.')
                 break;
         }
         for (int i = 1; i < 8; i++)
         {
             ni = si + i*m;
-            nj = si - i*m;
+            nj = sj - i*m;
             if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
                 continue;
             if (ni == di && dj == nj)
-                return board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player);
+                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
+                    return 1;
             if (board[ni][nj] != '.')
                 break;
         }
