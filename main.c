@@ -1,5 +1,4 @@
 #include "stdio.h"
-#include <stdlib.h>
 #include <string.h>
 #include "moves.h"
 #include "utils.h"
@@ -16,7 +15,6 @@ int try(int, int, int, int);
 int move(char, int, char, int);
 
 int playerToMove = 0;
-
 
 int main(){
     populateBoard();
@@ -155,8 +153,8 @@ int move(char s1, int s2, char d1, int d2){
         return 0;
     }
     if(!canReach(si, sj, di, dj)){
-        return 0;
         printf("\nThis piece can't go there!\n");
+        return 0;
     }
     if(!try(si, sj, di, dj)){
         printf("\nYou lose your king if you go there!\n");
