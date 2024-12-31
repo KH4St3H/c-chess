@@ -15,12 +15,12 @@ int pawn(int player, int si, int sj, int di, int dj){
     if(distance == 1 && (sj-1 == dj || sj+1==dj) && board[di][dj] != '.' && getPiecePlayer(board[di][dj])!=player)
         return 1;
 
-    if(distance == 2 && sj == dj && board[di][dj] == '.' && si==1 && board[di-1][dj] == '.' && player)
-        return 1;
-
-    if(distance == 2 && sj == dj && board[di][dj] == '.' && si==6 && board[di+1][dj] == '.' && !player)
-        return 1;
-
+    if(distance == 2 && sj == dj && board[di][dj] == '.'){
+        if(player)
+            return si==1 && board[di-1][dj] == '.';
+        else
+            return si==6 && board[di+1][dj] == '.';
+    }
     return 0;
 }
 
@@ -40,74 +40,47 @@ int knight(int player, int si, int sj, int di, int dj){
     return (getPiecePlayer(board[si][sj]) != getPiecePlayer(board[di][dj]));
 }
 
+int canReachWithStep(int diffi, int diffj, int si, int sj, int di, int dj){
+    int ni, nj;
+    for (int i = 1; i < 8; i++)
+    {
+        ni = si + diffi*i;
+        nj = sj + diffj*i;
+        if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
+            continue;
+        if (ni == di && dj == nj){
+            return 1;
+        }
+        if (board[ni][nj] != '.')
+            return 0;
+    }
+    return 0;
+}
+
 int rook(int player, int si, int sj, int di, int dj)
 {
-    int ni, nj;
-    int mul[2] = {1, -1};
-    for(int mm=0; mm<2; mm++){
-        int m = mul[mm];
-        for (int i = 1; i < 8; i++)
-        {
-            ni = si + i*m;
-            nj = sj;
-            if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
-                continue;
-            if (ni == di && dj == nj){
-                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
-                    return 1;
-            }
-            if (board[ni][nj] != '.')
-                break;
-        }
-        for (int i = 1; i < 8; i++)
-        {
-            ni = si;
-            nj = sj + i*m;
-            if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
-                continue;
-            if (ni == di && dj == nj)
-                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
-                    return 1;
-            if (board[ni][nj] != '.')
-                break;
-        }
-    }
-    
-    return 0;
+    int diffi = di - si;
+    int diffj = dj - sj;
+    if(diffi && diffj)
+        return 0;
+
+    if(!(canReachWithStep(-1, 0, si, sj, di, dj) || canReachWithStep(1, 0, si, sj, di, dj) || canReachWithStep(0, 1, si, sj, di, dj) || canReachWithStep(0, -1, si, sj, di, dj)))
+        return 0;
+
+    return board[di][dj]=='.' || (getPiecePlayer(board[di][dj]) != player);
 }
 
 int bishop(int player, int si, int sj, int di, int dj)
 {
-    int ni, nj;
-    int mul[2] = {1, -1};
-    for(int mm=0; mm<2; mm++){
-        int m = mul[mm];
-        for (int i = 1; i < 8; i++)
-        {
-            ni = si + i*m;
-            nj = sj + i*m;
-            if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
-                continue;
-            if (ni == di && dj == nj)
-                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
-                    return 1;
-            if (board[ni][nj] != '.')
-                break;
-        }
-        for (int i = 1; i < 8; i++)
-        {
-            ni = si + i*m;
-            nj = sj - i*m;
-            if (ni < 0 || nj < 0 || ni > 7 || nj > 7)
-                continue;
-            if (ni == di && dj == nj)
-                if(board[ni][nj]=='.' || (getPiecePlayer(board[ni][nj]) != player))
-                    return 1;
-            if (board[ni][nj] != '.')
-                break;
-        }
-    }
-    return 0;
+    int diffi = di - si;
+    int diffj = dj - sj;
+    if(abs(diffi) != abs(diffj))
+        return 0;
+
+    if(!(canReachWithStep(-1, -1, si, sj, di, dj) || canReachWithStep(1, 1, si, sj, di, dj) || canReachWithStep(1, -1, si, sj, di, dj) || canReachWithStep(-1, 1, si, sj, di, dj)))
+        return 0;
+
+    return board[di][dj]=='.' || (getPiecePlayer(board[di][dj]) != player);
 }
 
 
