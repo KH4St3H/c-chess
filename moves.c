@@ -3,6 +3,9 @@
 #include "moves.h"
 
 extern char board[8][8];
+extern int touched[8][8];
+
+int canReachWithStep(int diffi, int diffj, int si, int sj, int di, int dj);
 
 int pawn(int player, int si, int sj, int di, int dj){
     int distance = abs(si - di);
@@ -12,7 +15,7 @@ int pawn(int player, int si, int sj, int di, int dj){
     if(distance == 1 && sj == dj && board[di][dj] == '.')
         return 1;
 
-    if(distance == 1 && (sj-1 == dj || sj+1==dj) && board[di][dj] != '.' && getPiecePlayer(board[di][dj])!=player)
+    if((((di<si) && !player) || ((di>si) && player)) && distance == 1 && (sj-1 == dj || sj+1==dj) && board[di][dj] != '.' && getPiecePlayer(board[di][dj])!=player)
         return 1;
 
     if(distance == 2 && sj == dj && board[di][dj] == '.'){
