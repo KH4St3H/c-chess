@@ -4,6 +4,7 @@
 #include "utils.h"
 
 char board[8][8];
+int touched[8][8];
 
 char tempBoard[8][8];
 
@@ -78,6 +79,7 @@ int isChecked(){
             }
             ki = i;
             kj = j;
+            break;
         }
     }
     if(ki < 0)
@@ -163,6 +165,8 @@ int move(char s1, int s2, char d1, int d2){
     
     board[di][dj] = board[si][sj];
     board[si][sj] = '.';
+    touched[si][sj] = 1;
+    touched[di][dj] = 1;
     promote(di, dj);
 
     return 1;
@@ -216,6 +220,7 @@ void populateBoard(){
     for(int i=0; i<8; i++){
         for(int j=2; j<6; j++){
             board[j][i] = '.';
+            touched[j][i] = 0;
         }
         board[0][i] = row[i];
         board[6][i] = 'P';

@@ -28,6 +28,30 @@ int pawn(int player, int si, int sj, int di, int dj){
 }
 
 int king(int player, int si, int sj, int di, int dj){
+    char k = board[si][sj];
+    if(!touched[si][di] && si==di){
+        if(dj-sj==2){
+            int row = 7-getPiecePlayer(k)*7;
+            if(!touched[di][7] && canReachWithStep(0, 1, si, sj, si, 7)){
+                touched[di][7] = 1;
+                touched[di][dj-1] = 1;
+                board[di][dj-1] = board[di][7];
+                board[di][7] = '.';
+                return 1;
+            }
+                
+        }
+        if(dj-sj==-2){
+            if(!touched[di][0] && canReachWithStep(0, -1, si, sj, si, 0)){
+                touched[di][0] = 1;
+                touched[di][sj-1] = 1;
+                board[di][sj-1] = board[si][0];
+                board[di][0] = '.';
+                return 1;
+            }
+                
+        }
+    }
     if(!(abs(si-di)<2 && abs(sj-dj)<2))
         return 0;
     if(board[di][dj] == '.')
